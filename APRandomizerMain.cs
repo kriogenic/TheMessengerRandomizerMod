@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Archipelago.MultiClient.Net.Enums;
-using Archipelago.MultiClient.Net.Packets;
 using MessengerRando.Archipelago;
 using MessengerRando.GameOverrideManagers;
 using MessengerRando.Overrides;
@@ -12,6 +12,8 @@ using MessengerRando.Utils.Constants;
 using MessengerRando.Utils.Menus;
 using Mod.Courier;
 using Mod.Courier.Module;
+using Mod.Courier.UI;
+using static Mod.Courier.UI.TextEntryButtonInfo;
 using MonoMod.Cil;
 using TMPro;
 using UnityEngine;
@@ -36,8 +38,10 @@ namespace MessengerRando
         private TextMeshProUGUI apTextDisplay16;
         private TextMeshProUGUI apMessagesDisplay8;
         private TextMeshProUGUI apMessagesDisplay16;
-        public static string ModPath = Courier.ModsFolder.Replace("/Mods", "");
+        public static string ModPath = Courier.ModsFolder.Replace("/Mods", "/");
 
+        private TextEntryPopup closeLater;
+        private float closeLaterTimer;
         //Set up save data
         public override Type ModuleSaveType => typeof(RandoSave);
         // ReSharper disable once MemberCanBePrivate.Global
@@ -60,6 +64,8 @@ namespace MessengerRando
             On.SaveGameSelectionScreen.OnNewGame += SaveGameSelectionScreen_OnNewGame;
             On.SaveGameSelectionScreen.ConfirmSaveDelete += SaveGameSelectionScreen_ConfirmSaveDelete;
             On.SaveGameSelectionScreen.OnDeleteChoiceDone += SaveGameSelectionScreen_OnDelete;
+            On.SaveGameSelectionScreen.Update += SaveSelectionScreen_OnUpdate;
+            On.NameSavePopup.Update += OnNameSaveUpdate;
             On.BackToTitleScreen.GoBackToTitleScreen += PauseScreen_OnQuitToTitle;
             On.NecrophobicWorkerCutscene.Play += NecrophobicWorkerCutscene_Play;
             IL.RuxxtinNoteAndAwardAmuletCutscene.Play += RuxxtinNoteAndAwardAmuletCutscene_Play;
@@ -123,6 +129,25 @@ namespace MessengerRando
             #endif
 
             Console.WriteLine("Randomizer finished loading!");
+        }
+
+        private void SaveSelectionScreen_OnUpdate(On.SaveGameSelectionScreen.orig_Update orig, SaveGameSelectionScreen self)
+        {
+            orig(self);
+            if (closeLater)
+            {
+                closeLaterTimer += Time.deltaTime;
+                if (closeLaterTimer >= 3)
+                {
+                    closeLater.gameObject.SetActive(false);
+                    closeLater = null;
+                }
+            }
+        }
+
+        private void OnNameSaveUpdate(On.NameSavePopup.orig_Update orig, NameSavePopup self)
+        {
+            self.OnLetterErased();
         }
 
         private void OnPlayerController_Awake(On.PlayerController.orig_Awake orig, PlayerController self)
@@ -416,12 +441,33 @@ namespace MessengerRando
                         RandomizerStateManager.InitializeNewSecondQuest(self, slot.slotIndex);
                         return;
                     }
-                    break;
+                    orig(self, slot);
+                    self.nameSavePopup.OnLetterErased();
+                    closeLater =
+                        InitTextEntryPopup(self,
+                            "Not connected to an Archipelago server. Please connect before continuing.",
+                            _ => true, 0, null,
+                            CharsetFlags.Space);
+                    closeLater.Init("");
+                    closeLater.gameObject.SetActive(true);
+                    closeLaterTimer = 0f;
+                    return;
                 }
                 orig(self, slot);
             }
             else
+            {
                 orig(self, slot);
+                self.nameSavePopup.OnLetterErased();
+                closeLater =
+                    InitTextEntryPopup(self,
+                        "",
+                        _ => true, 0, null,
+                        CharsetFlags.Space);
+                closeLater.Init("Not connected to an Archipelago server. Please connect before continuing.");
+                closeLater.gameObject.SetActive(true);
+                closeLaterTimer = 0f;
+            }
         }
 
         private void SaveGameSelectionScreen_ConfirmSaveDelete(On.SaveGameSelectionScreen.orig_ConfirmSaveDelete orig, SaveGameSelectionScreen self, SaveSlotUI slot)
