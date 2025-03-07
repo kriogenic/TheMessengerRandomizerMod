@@ -419,9 +419,9 @@ namespace MessengerRando.Archipelago
             }
 
             TrapManager.UpdateTrapStatus();
+            if (Offline) return;
             if (!Authenticated)
             {
-                if (Offline) return;
                 Console.WriteLine("Attempting to reconnect to Archipelago Server...");
                 ThreadPool.QueueUserWorkItem(_ => ConnectAsync());
                 return;
@@ -518,10 +518,6 @@ namespace MessengerRando.Archipelago
                     text += $"\nHint points available: {Session.RoomState.HintPoints}\nHint point cost: {hintCost}";
                 }
             }
-            else if (Offline)
-            {
-                text = "";
-            }
             else if (HasConnected)
             {
                 text = "Disconnected from Archipelago server.";
@@ -541,6 +537,7 @@ namespace MessengerRando.Archipelago
 
         public static void SendSayPacket(string text)
         {
+            Session.SetGoalAchieved();
             Session.Socket.SendPacket(new SayPacket { Text = text });
         }
     }

@@ -32,7 +32,7 @@ namespace MessengerRando.Utils
 
         public static void ReadConfig(string path)
         {
-            path += "\\" + configFileName;
+            path += configFileName;
             if (!File.Exists(path))
             {
                 GenerateConfig(path);

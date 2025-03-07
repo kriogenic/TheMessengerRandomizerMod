@@ -454,6 +454,15 @@ namespace MessengerRando
                     return;
                 }
                 orig(self, slot);
+                self.nameSavePopup.OnLetterErased();
+                closeLater =
+                    InitTextEntryPopup(self,
+                        "Not connected to an Archipelago server. Please connect before continuing.",
+                        _ => true, 0, null,
+                        CharsetFlags.Space);
+                closeLater.Init("");
+                closeLater.gameObject.SetActive(true);
+                closeLaterTimer = 0f;
             }
             else
             {
@@ -818,21 +827,29 @@ namespace MessengerRando
 
         private void PlayerController_OnUpdate(PlayerController controller)
         {
-            if (!ArchipelagoClient.HasConnected || randoStateManager.CurrentFileSlot == 0) return;
-            if (ArchipelagoClient.Authenticated && ArchipelagoClient.DeathLinkHandler.Player == null)
-                ArchipelagoClient.DeathLinkHandler.Player = controller;
-            if (RandomizerStateManager.IsSafeTeleportState() && !Manager<PauseManager>.Instance.IsPaused && ArchipelagoClient.Authenticated)
-                ArchipelagoClient.DeathLinkHandler.KillPlayer();
+            if (!ArchipelagoClient.HasConnected || randoStateManager.CurrentFileSlot == 0)
+            {
+                return;
+            }
+            if (ArchipelagoClient.Authenticated)
+            {
+                if (ArchipelagoClient.DeathLinkHandler.Player == null)
+                {
+                    ArchipelagoClient.DeathLinkHandler.Player = controller;
+                }
+
+                if (RandomizerStateManager.IsSafeTeleportState() && !Manager<PauseManager>.Instance.IsPaused)
+                {
+                    ArchipelagoClient.DeathLinkHandler.KillPlayer();
+                }
+            }
             //This updates every {updateTime} seconds
             updateTimer += Time.deltaTime;
             TrapManager.TrapTimer += Time.deltaTime;
             if (!(updateTimer >= UpdateTime)) return;
-            apMessagesDisplay16.text = apMessagesDisplay8.text = ArchipelagoClient.UpdateMessagesText();
             updateTimer = 0;
-            if (Manager<PlayerManager>.Instance.Player.InputBlocked() ||
-                Manager<GameManager>.Instance.IsCutscenePlaying() ||
-                Manager<LevelManager>.Instance.GetCurrentLevelEnum() == ELevel.NONE) return;
             ArchipelagoClient.UpdateArchipelagoState();
+            apMessagesDisplay16.text = apMessagesDisplay8.text = ArchipelagoClient.UpdateMessagesText();
         }
 
         private void InGameHud_OnGUI(On.InGameHud.orig_OnGUI orig, InGameHud self)
@@ -859,6 +876,8 @@ namespace MessengerRando
                 apMessagesDisplay16.color = apMessagesDisplay8.color = Color.green;
                 apMessagesDisplay16.text = apMessagesDisplay8.text = string.Empty;
             }
+
+            if (ArchipelagoClient.Offline) return;
             //This updates every frame
             apTextDisplay16.fontSize = apTextDisplay8.fontSize = UserConfig.StatusTextSize;
             apMessagesDisplay16.fontSize = apMessagesDisplay8.fontSize = UserConfig.MessageTextSize;
@@ -912,7 +931,7 @@ namespace MessengerRando
             {
                 TrapManager.ResetPlayerState();
                 Manager<UIManager>.Instance.CloseAllScreensOfType<AwardItemPopup>(false);
-                ArchipelagoClient.DeathLinkHandler.SendDeathLink(deathType, killedBy);
+                ArchipelagoClient.DeathLinkHandler?.SendDeathLink(deathType, killedBy);
             }
             catch (Exception e)
             {

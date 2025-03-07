@@ -584,6 +584,7 @@ namespace MessengerRando.Utils.Menus
                          TextEntryButtonInfo.CharsetFlags.Space | TextEntryButtonInfo.CharsetFlags.Dash |
                          TextEntryButtonInfo.CharsetFlags.Dot
             );
+            SendChatMessageButton.IsEnabled = () => ArchipelagoClient.Authenticated;
 
             //Add windmill shuriken toggle button
             WindmillShurikenToggleButton = RegisterSubRandoButton(
