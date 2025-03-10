@@ -441,17 +441,7 @@ namespace MessengerRando
                         RandomizerStateManager.InitializeNewSecondQuest(self, slot.slotIndex);
                         return;
                     }
-                    orig(self, slot);
-                    self.nameSavePopup.OnLetterErased();
-                    closeLater =
-                        InitTextEntryPopup(self,
-                            "Not connected to an Archipelago server. Please connect before continuing.",
-                            _ => true, 0, null,
-                            CharsetFlags.Space);
-                    closeLater.Init("");
-                    closeLater.gameObject.SetActive(true);
-                    closeLaterTimer = 0f;
-                    return;
+                    break;
                 }
                 orig(self, slot);
                 self.nameSavePopup.OnLetterErased();
