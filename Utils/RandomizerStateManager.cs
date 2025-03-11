@@ -147,9 +147,6 @@ namespace MessengerRando.Utils
 
         private static void SetupScoutedLocations(Dictionary<long, ScoutedItemInfo> scoutedLocationInfo)
         {
-            // foreach (var itemInfo in scoutedLocationInfo.Values)
-            // {
-            // }
             Instance.ScoutedLocations = scoutedLocationInfo;
             Console.WriteLine("scouting done");
         }

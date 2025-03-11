@@ -349,6 +349,15 @@ namespace MessengerRando
                 RandoSave.TryLoad(Save.APSaveData);
                 if (ArchipelagoData.LoadData(randoStateManager.CurrentFileSlot))
                 {
+                    if (!ArchipelagoClient.Offline)
+                    {
+                        // need to wait for the scout response from the server
+                        while (randoStateManager.ScoutedLocations == null || randoStateManager.ScoutedLocations.Count < 1)
+                        {
+                            Console.WriteLine("locations not scouted yet. waiting...");
+                            Thread.Sleep(100);
+                        }
+                    }
                     Manager<DialogManager>.Instance.LoadDialogs(Manager<LocalizationManager>.Instance.CurrentLanguage);
                     //The player is connected to an Archipelago server and trying to load a save file so check it's valid
                     Console.WriteLine($"Successfully loaded Archipelago seed {randoStateManager.CurrentFileSlot}");
