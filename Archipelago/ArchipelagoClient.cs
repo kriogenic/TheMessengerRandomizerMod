@@ -537,8 +537,7 @@ namespace MessengerRando.Archipelago
 
         public static void SendSayPacket(string text)
         {
-            Session.SetGoalAchieved();
-            Session.Socket.SendPacket(new SayPacket { Text = text });
+            Session.Say(text);
         }
     }
 }
