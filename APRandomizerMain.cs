@@ -164,7 +164,8 @@ namespace MessengerRando
 
         private void OnOptionScreenEnable(On.OptionScreen.orig_OnEnable orig, OptionScreen self)
         {
-            RandoSave.TryLoad(Save.APSaveData);
+            if (RandomizerStateManager.Instance.APSave == null)
+                RandoSave.TryLoad(Save.APSaveData);
             orig(self);
         }
 
