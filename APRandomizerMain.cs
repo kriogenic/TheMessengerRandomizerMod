@@ -672,6 +672,7 @@ namespace MessengerRando
             RandoLevelManager.CleanupBeforeOptionsTeleport();
             //Load the HQ
             Manager<TowerOfTimeHQManager>.Instance.TeleportInToTHQ(true, ELevelEntranceID.ENTRANCE_A, null);
+            RandoLevelManager.CleanupAfterTeleport();
         }
 
         public static void OnSelectTeleportToNinjaVillage()
@@ -682,9 +683,8 @@ namespace MessengerRando
 
             RandoLevelManager.CleanupBeforeOptionsTeleport();
             //Load to Ninja Village
-            Manager<ProgressionManager>.Instance.checkpointSaveInfo.loadedLevelPlayerPosition = new Vector2(-153.3f, -56.5f);
-            LevelLoadingInfo levelLoadingInfo = new LevelLoadingInfo("Level_01_NinjaVillage_Build", false, true, LoadSceneMode.Single, ELevelEntranceID.NONE, dimension);
-            Manager<LevelManager>.Instance.LoadLevel(levelLoadingInfo);
+            RandoLevelManager.TeleportInArea(new LevelConstants.RandoLevel(ELevel.Level_01_NinjaVillage,
+                new Vector3(-153.3f, -56.5f)));
         }
 
         public static void OnSelectTeleportToSearing()

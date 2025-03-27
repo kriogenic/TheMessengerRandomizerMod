@@ -149,12 +149,13 @@ namespace MessengerRando.GameOverrideManagers
                 // progManager.allTimeDiscoveredLevels.Remove(ELevel.Level_05_B_SunkenShrine);
             // }
             
-            if (teleporting)
-            {
-                teleporting = false;
-                AddCurrentRegionToStorage(self);
-                return;
-            }
+        if (teleporting)
+        {
+            teleporting = false;
+            AddCurrentRegionToStorage(self);
+            CleanupAfterTeleport();
+            return;
+        }
 
             var shouldTeleport =
                 (RandoPortalManager.PortalMapping != null && RandoPortalManager.PortalMapping.Count > 0 &&
@@ -266,25 +267,24 @@ namespace MessengerRando.GameOverrideManagers
             KillManfred = false;
         }
 
-        public static void CleanupBeforeOptionsTeleport()
-        {
-            Manager<AudioManager>.Instance.StopMusic();
-            Manager<PauseManager>.Instance.Resume();
-            ArchipelagoMenu.archipelagoScreen.Close(false);
-            Manager<UIManager>.Instance.CloseAllScreensOfType<OptionScreen>(false);
-            Manager<UIManager>.Instance.CloseAllScreensOfType<CinematicBordersScreen>(false);
-            Manager<UIManager>.Instance.CloseAllScreensOfType<TransitionScreen>(false);
-            Manager<UIManager>.Instance.CloseAllScreensOfType<SavingScreen>(false);
-            Manager<UIManager>.Instance.CloseAllScreensOfType<LoadingAnimation>(false);
-        }
+    public static void CleanupBeforeOptionsTeleport()
+    {
+        CleanupBeforeTeleport();
+        Manager<PauseManager>.Instance.Resume();
+        ArchipelagoMenu.archipelagoScreen.Close(false);
+        Manager<UIManager>.Instance.CloseAllScreensOfType<OptionScreen>(false);
+    }
 
-        public static void CleanupBeforeTeleport()
-        {
-            Manager<AudioManager>.Instance.StopMusic();
-            // Manager<UIManager>.Instance.CloseAllScreensOfType<CinematicBordersScreen>(false);
-            // Manager<UIManager>.Instance.CloseAllScreensOfType<TransitionScreen>(false);
-            // Manager<UIManager>.Instance.CloseAllScreensOfType<SavingScreen>(false);
-            // Manager<UIManager>.Instance.CloseAllScreensOfType<LoadingAnimation>(false);
-        }
+    private static void CleanupBeforeTeleport()
+    {
+        Manager<AudioManager>.Instance.StopMusic();
+    }
+
+    public static void CleanupAfterTeleport()
+    {
+        Manager<UIManager>.Instance.CloseAllScreensOfType<CinematicBordersScreen>(false);
+        Manager<UIManager>.Instance.CloseAllScreensOfType<TransitionScreen>(false);
+        Manager<UIManager>.Instance.CloseAllScreensOfType<SavingScreen>(false);
+        Manager<UIManager>.Instance.CloseAllScreensOfType<LoadingAnimation>(false);
     }
 }
