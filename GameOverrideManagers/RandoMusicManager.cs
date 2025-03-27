@@ -39,9 +39,11 @@ namespace MessengerRando.GameOverrideManagers
         {
             if (audioObjectDefinition == null)
                 return null;
-            // Debug.Log("playing music");
-            // Debug.Log(audioObjectDefinition.GetInstanceID());
-            // Debug.Log(audioObjectDefinition.GetInstanceID());
+#if DEBUG
+            Debug.Log("playing music");
+            Debug.Log(audioObjectDefinition.GetInstanceID());
+            Debug.Log(audioObjectDefinition.GetInstanceID());
+#endif
             if (Manager<LevelManager>.Instance.GetCurrentLevelEnum().Equals(ELevel.Level_05_B_SunkenShrine))
             {
                 self.levelMusicShuffle = false;
