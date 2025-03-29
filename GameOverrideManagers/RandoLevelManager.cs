@@ -65,7 +65,12 @@ public static class RandoLevelManager
             if (RandoLevelMapping == null) return new LevelConstants.RandoLevel(ELevel.NONE, new Vector3());
 
             string entrance;
-            if (currentLevel.Equals(ELevel.Level_14_CorruptedFuture))
+            // this can happen if the player goes to tower from future then back to future
+            if (currentLevel.Equals(ELevel.Level_13_TowerOfTimeHQ) && lastLevel.Equals(ELevel.Level_14_CorruptedFuture))
+            {
+                entrance = "Corrupted Future";
+            }
+            else if (currentLevel.Equals(ELevel.Level_14_CorruptedFuture))
             {
                 entrance = "Corrupted Future";
             }
