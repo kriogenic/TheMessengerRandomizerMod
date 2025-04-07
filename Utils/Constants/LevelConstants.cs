@@ -96,7 +96,7 @@ namespace MessengerRando.Utils.Constants
                 },
                 {
                     "Autumn Hills - Right",
-                    new RandoLevel(ELevel.Level_02_AutumnHills, new Vector3(968.5283f, -27f))
+                    new RandoLevel(ELevel.Level_02_AutumnHills, new Vector3(968.5283f, -27f), EBits.BITS_8)
                 },
                 {
                     "Autumn Hills - Bottom", new RandoLevel(ELevel.Level_02_AutumnHills, new Vector3(679.6884f, -139f), EBits.BITS_16)
