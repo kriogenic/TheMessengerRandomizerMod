@@ -41,6 +41,8 @@ namespace MessengerRando.Archipelago
         public static Queue DialogQueue = new();
         private static Queue messageQueue = new();
         public static int OfflineReceivedItems;
+        private static string statusText = string.Empty;
+        private static bool roomUpdate;
 
         public static List<string> EventsICareAbout =
         [
@@ -111,6 +113,15 @@ namespace MessengerRando.Archipelago
             session.MessageLog.OnMessageReceived += OnMessageReceived;
             session.Socket.ErrorReceived += SessionErrorReceived;
             session.Socket.SocketClosed += SessionSocketClosed;
+            session.Socket.PacketReceived += OnPacketReceived;
+        }
+
+        private static void OnPacketReceived(ArchipelagoPacketBase packet)
+        {
+            if (packet is RoomUpdatePacket)
+            {
+                roomUpdate = true;
+            }
         }
 
         public static string Connect(Uri uri)
@@ -507,23 +518,24 @@ namespace MessengerRando.Archipelago
 
         public static string UpdateStatusText()
         {
-            var text = string.Empty;
-            if (!DisplayStatus) return text;
+            if (!roomUpdate) return statusText;
+            roomUpdate = false;
+            statusText = string.Empty;
+            if (!DisplayStatus) return statusText;
             if (Authenticated)
             {
-                text = $"Connected to Archipelago v{Session.RoomState.Version}";
+                statusText = $"Connected to Archipelago v{Session.RoomState.Version}";
                 var hintCost = GetHintCost();
                 if (hintCost > 0)
                 {
-                    text += $"\nHint points available: {Session.RoomState.HintPoints}\nHint point cost: {hintCost}";
+                    statusText += $"\nHint points available: {Session.RoomState.HintPoints}\nHint point cost: {hintCost}";
                 }
             }
             else if (HasConnected)
             {
-                text = "Disconnected from Archipelago server.";
+                statusText = "Disconnected from Archipelago server.";
             }
-
-            return text;
+            return statusText;
         }
 
         public static string UpdateMessagesText()
