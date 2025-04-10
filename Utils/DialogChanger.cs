@@ -95,7 +95,7 @@ namespace MessengerRando.Utils
                             {
                                 Loc[replaceableKey][0].text = SeedGenerator.GetOfflineDialog(locationID);
                             }
-                            else
+                            else if (ArchipelagoClient.Authenticated)
                             {
                                 var netItem = RandomizerStateManager.Instance.ScoutedLocations[locationID];
                                 if (netItem.Player.Slot.Equals(ArchipelagoClient.Session.ConnectionInfo.Slot))
