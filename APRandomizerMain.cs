@@ -353,7 +353,8 @@ namespace MessengerRando
                     if (!ArchipelagoClient.Offline)
                     {
                         // need to wait for the scout response from the server
-                        while (randoStateManager.ScoutedLocations == null || randoStateManager.ScoutedLocations.Count < 1)
+                        while (ArchipelagoClient.Authenticated && (randoStateManager.ScoutedLocations == null ||
+                                                                   randoStateManager.ScoutedLocations.Count < 1))
                         {
                             Console.WriteLine("locations not scouted yet. waiting...");
                             Thread.Sleep(100);
