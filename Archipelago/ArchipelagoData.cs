@@ -62,7 +62,8 @@ namespace MessengerRando.Archipelago
                 var i = 0;
                 if (ArchipelagoClient.Authenticated)
                 {
-                    //we're already connected to an archipelago server so check if the file is valid
+                    //we're already connected to an archipelago server, but have a save file, so disconnect to clean up
+                    ArchipelagoClient.Disconnect();
                     if (tempServerData.SeedName.Equals(SeedName) && tempServerData.SlotName.Equals(SlotName))
                     {
                         //We're continuing an existing multiworld so likely a port change. Save the new data
@@ -88,10 +89,12 @@ namespace MessengerRando.Archipelago
 
                         Console.WriteLine($"Setting index to {ArchipelagoClient.OfflineReceivedItems}");
                         Index = ArchipelagoClient.OfflineReceivedItems;
+                        RandomizerStateManager.OnMainMenu = false;
+                        // reconnect
+                        ArchipelagoClient.Connect();
                         return true;
                     }
                     //There was archipelago save data and it doesn't match our current connection so abort.
-                    ArchipelagoClient.Disconnect();
                     return ArchipelagoClient.HasConnected = false;
                 }
                 //We aren't connected to an Archipelago server so attempt to use the found data
