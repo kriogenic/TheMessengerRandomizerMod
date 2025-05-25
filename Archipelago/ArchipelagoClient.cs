@@ -551,5 +551,11 @@ namespace MessengerRando.Archipelago
         {
             Session.Say(text);
         }
+
+        public static void ClearMessages()
+        {
+            messageQueue = new Queue();
+            DialogQueue = new Queue();
+        }
     }
 }

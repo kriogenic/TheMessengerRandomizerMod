@@ -43,6 +43,7 @@ namespace MessengerRando.Utils.Menus
         public static SubMenuButtonInfo ArchipelagoCollectButton;
         public static SubMenuButtonInfo ArchipelagoToggleMessagesButton;
         public static SubMenuButtonInfo ArchipelagoToggleFilterMessagesButton;
+        public static SubMenuButtonInfo ArchipelagoClearMessagesButton;
         public static SubMenuButtonInfo ArchipelagoToggleHintPopupButton;
         public static SubMenuButtonInfo ArchipelagoStatusButton;
         public static SubMenuButtonInfo ArchipelagoDeathLinkButton;
@@ -649,6 +650,12 @@ namespace MessengerRando.Utils.Menus
                 () => ArchipelagoClient.FilterAPMessages = !ArchipelagoClient.FilterAPMessages);
             ArchipelagoToggleFilterMessagesButton.IsEnabled = () =>
                 ArchipelagoClient.Authenticated && ArchipelagoClient.DisplayAPMessages;
+            
+            //Add Archipelago clear messages button
+            ArchipelagoClearMessagesButton = RegisterSubRandoButton(
+                () => "Clear message queue",
+                ArchipelagoClient.ClearMessages);
+            ArchipelagoClearMessagesButton.IsEnabled = () => ArchipelagoClient.Authenticated;
 
             //Add Archipelago hint popup button
             ArchipelagoToggleHintPopupButton = RegisterSubRandoButton(
