@@ -118,7 +118,7 @@ namespace MessengerRando.Archipelago
             new RandoItemRO("Timeshard (300)", EItems.TIME_SHARD),
             new RandoItemRO("Timeshard (500)", EItems.TIME_SHARD),
             //shop items
-            new RandoItemRO("Karuta Plates", EItems.HEART_CONTAINER),
+            new RandoItemRO("Karuta Plates", EItems.HEART_CONTAINER), //Duplicate of Kusari Jacket?
             new RandoItemRO("Serendipitous Bodies", EItems.ENEMY_DROP_HP),
             new RandoItemRO("Path of Resilience", EItems.DAMAGE_REDUCTION),
             new RandoItemRO("Kusari Jacket", EItems.HEART_CONTAINER),

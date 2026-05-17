@@ -4,6 +4,8 @@ namespace MessengerRando.Utils
 {
     class RandomizerConstants
     {
+        internal static readonly string LOGGER_TAG = "MessengerRando";
+
         public static List<string> GetSpecialTriggerNames()
         {
             List<string> triggersToIgnoreRandoItemLogic = new List<string>();

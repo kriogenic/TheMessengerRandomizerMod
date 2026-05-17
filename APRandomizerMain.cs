@@ -123,10 +123,16 @@ namespace MessengerRando
             //temp add
             #if DEBUG
             On.PhantomIntroCutscene.OnEnterRoom += PhantomIntro_OnEnterRoom; //this lets us skip the phantom fight
-            On.UIManager.ShowView += UIManager_ShowView;
+            //On.UIManager.ShowView += UIManager_ShowView;
             On.MusicBox.SetNotesState += MusicBox_SetNotesState;
             On.PowerSeal.OnEnterRoom += PowerSeal_OnEnterRoom;
             #endif
+
+            On.LevelInitializer.InitDone += SpriteReplacer.LevelInitializer_InitDone;
+            On.Cutscene.OnCutsceneDone += SpriteReplacer.Cutscene_OnCutsceneDone;
+            On.NecrophobicWorkerCutscene.OnCutsceneDone += SpriteReplacer.NecrophobicWorkerCutscene_OnCutsceneDone;
+
+
 
             Console.WriteLine("Randomizer finished loading!");
         }

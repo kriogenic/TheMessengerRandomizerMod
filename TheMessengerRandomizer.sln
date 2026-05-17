@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37203.1 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerRando", "MessengerRando.csproj", "{6271B317-0737-489F-8319-67F0AC291D20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengerRando", "MessengerRando.csproj", "{BB1316CF-952F-4FD9-A64B-A61179655CB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,21 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6271B317-0737-489F-8319-67F0AC291D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6271B317-0737-489F-8319-67F0AC291D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6271B317-0737-489F-8319-67F0AC291D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6271B317-0737-489F-8319-67F0AC291D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB1316CF-952F-4FD9-A64B-A61179655CB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1316CF-952F-4FD9-A64B-A61179655CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1316CF-952F-4FD9-A64B-A61179655CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1316CF-952F-4FD9-A64B-A61179655CB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7039E307-FE1A-44E9-A063-DAB3B0FAE9E1}
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		outputpath = "C:\Program Files (x86)\Steam\steamapps\common\The Messenger\Mods\TheMessengerRandomizer"
-		Policies = $0
-		$0.DotNetNamingPolicy = $1
-		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		SolutionGuid = {55761BFD-0AFA-4B83-8AF4-EB469E79A6A7}
 	EndGlobalSection
 EndGlobal
