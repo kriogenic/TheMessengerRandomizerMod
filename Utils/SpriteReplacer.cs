@@ -13,11 +13,7 @@ using UnityEngine.SceneManagement;
 //Replacements to implement \ work out
 //  - Magic Firefly - Needs a condition to keep original sprite until after fight.
 //      Currently always replaces, bug or feature?
-//  - Currently use the ingame HasItem script to hide sprites, but that breaks for advanced seeds that introduce time shards.
-//      Implement custom HasItem script to check states
 
-
-//  - TIME SENSE - Pre setup as wingsuit sprite, need to hardcode a replacement.
 
 
 
@@ -31,8 +27,6 @@ namespace MessengerRando.Utils
     public static class SpriteReplacer
     {
 
-        private const string shardIcon = "\"iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABJQTFRF5FwQ/KBE+Nh4UDAA////AAAAsL+JBQAAAGBJREFUeNqM0lEOwCAIA1Ba8f5Xnmi2LKFN7CdPQwRjmMQYU6RgylwCDdBCUgJTw6pLqHqCDfZ5Aace+OQPGREdwAOv/IAGUNB7lOzeHZYA4h37Dsys7HRvN2g/g8kjwAAOSQlBHBYXhAAAAABJRU5ErkJggg==\"";
-        
         private static readonly Dictionary<EItems, string> customIcons = new Dictionary<EItems, string>
         {
             { EItems.TIME_SHARD, "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABJQTFRF5FwQ/KBE+Nh4UDAA////AAAAsL+JBQAAAGBJREFUeNqM0lEOwCAIA1Ba8f5Xnmi2LKFN7CdPQwRjmMQYU6RgylwCDdBCUgJTw6pLqHqCDfZ5Aace+OQPGREdwAOv/IAGUNB7lOzeHZYA4h37Dsys7HRvN2g/g8kjwAAOSQlBHBYXhAAAAABJRU5ErkJggg==" },
@@ -114,23 +108,6 @@ namespace MessengerRando.Utils
                 }
                 //Replace all powerseals
                 ReplacePowerSeals();
-                foreach (LocationRO randoItemLocation in ItemsAndLocationsHandler.ArchipelagoLocations)
-                {
-                    //Console.WriteLine($"Checking location {randoItemLocation.LocationName} for sprite replacement");
-                    if (ItemsAndLocationsHandler.LocationsLookup.TryGetValue(randoItemLocation, out long randoLoc))
-                    {
-                        long itemToUnlock = ArchipelagoClient.ServerData.LocationData[randoLoc].First().Value[0];
-                        RandoItemRO RIRO;
-                        if (!ItemsAndLocationsHandler.ItemsLookup.TryGetValue(itemToUnlock, out RIRO))
-                        {
-                            CourierLogger.Log(RandomizerConstants.LOGGER_TAG, $"Could not find a mapping for item ID {itemToUnlock}");
-                            return;
-                        }
-
-                        if(RIRO.Item != EItems.TIME_SHARD)
-                            Console.WriteLine($"Location {randoItemLocation.PrettyLocationName} has item {RIRO.Item} mapped to it.");
-                    }
-                }
             }
         }
 
